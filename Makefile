@@ -66,11 +66,5 @@ cleaner: clean
 run:
 	$(BINDIR)/$(PROJECT) $(ARGS)
 
-tmp.o:
-	$(CC) $(CFLAGS) -c tmp.cpp -o tmp.o
-
-tmp:
-	$(CC) $(CFLAGS) obj/main.o obj/sorts/sorts.o tmp.o -o tmp_prog
-
 .PHONY: all remake clean cleaner
 
