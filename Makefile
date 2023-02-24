@@ -45,7 +45,9 @@ all: $(BINDIR)/$(PROJECT)
 
 remake: cleaner all
 
-$(OBJDIR)/tester/tester.o: $(SRCDIR)/tester/tester.cpp
+.FORCE:
+
+$(OBJDIR)/tester/tester.o: $(SRCDIR)/tester/tester.cpp .FORCE
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCFLAGS) -DTEST_CASE="test_cases/$(TEST_CASE).h" -DTEST_CASE_NAME=$(TEST_CASE) -c $< -o $@
 
@@ -63,8 +65,8 @@ clean:
 cleaner: clean
 	@rm -rf $(BINDIR)
 
-run:
+run: $(BINDIR)/$(PROJECT)
 	$(BINDIR)/$(PROJECT) $(ARGS)
 
-.PHONY: all remake clean cleaner
+.PHONY: all remake clean cleaner .FORCE
 
