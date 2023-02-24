@@ -24,6 +24,11 @@ static void fill_data(test_data* tdata);
         fill_data(&tdata);                                                  \
         PROFILE_FUNCTION(FUNCTION_ADAPTER(function), tdata, time_delta);    \
         mean_time_ms += time_delta;                                         \
+        if (time_delta >= 120*1000)                                         \
+        {                                                                   \
+            mean_time_ms = time_delta*repetitions;                          \
+            break;                                                          \
+        }                                                                   \
     }                                                                       \
     mean_time_ms /= (int64_t)repetitions;                                   \
 } while(0)
@@ -70,7 +75,7 @@ void run_all_tests()
     FILE* output_file = fopen("results/" STR(TEST_CASE_NAME) ".csv", "w+");
     setvbuf(output_file, NULL, _IONBF, 0);
 
-    fputs("Algorithm,Sample Size,Elapsed time\n", output_file);
+    fputs("Algorithm,Sample Size,Elapsed Time(ms)\n", output_file);
 
     #include STR(TEST_CASE)
 
