@@ -19,10 +19,17 @@ void BubbleSort(uint32_t *begin, uint32_t *end)
 
 void InsertionSort(uint32_t *begin, uint32_t *end)
 {
-    for (uint32_t* i = begin + 1; i < end; i++)
-        for (uint32_t* j = i + 1; j > begin; j--)
-            if (j[-1] > j[0]) swap(j-1, j);
-            else              break;
+    for (uint32_t* i = begin; i < end - 1; i++)
+    {
+        uint32_t current = i[1];
+        uint32_t* j = i;
+        while (j >= begin && *j > current)
+        {
+            j[1] = *j;
+            j--;
+        }
+        j[1] = current;
+    }
 }
 
 void SelectionSort(uint32_t *begin, uint32_t *end)

@@ -3,4 +3,4 @@ END_SIZE        (1'000'000)
 STEP_SIZE       (10'000)
 REPEAT          (5)
 
-SORTS((Insertion))
+SORTS((Bubble))
