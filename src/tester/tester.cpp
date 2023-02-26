@@ -75,7 +75,7 @@ void run_all_tests()
     FILE* output_file = fopen("results/" STR(TEST_CASE_NAME) ".csv", "w+");
     setvbuf(output_file, NULL, _IONBF, 0);
 
-    fputs("Algorithm,Sample Size,Elapsed Time(ms)\n", output_file);
+    fputs("Algorithm,Sample Size,Elapsed Time (ms)\n", output_file);
 
     #include STR(TEST_CASE)
 
