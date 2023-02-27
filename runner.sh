@@ -1,7 +1,5 @@
 #!/bin/sh
 
-make run BUILDTYPE=Release TEST_CASE=insertion_sort &&\
-    git add . && git commit -m "feat: insertion sort full tests" && git push &&\
 make run BUILDTYPE=Release TEST_CASE=selection_sort &&\
     git add . && git commit -m "feat: selection sort full tests" && git push &&\
 make run BUILDTYPE=Release TEST_CASE=bubble_sort &&\
