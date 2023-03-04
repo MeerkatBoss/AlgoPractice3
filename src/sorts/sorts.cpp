@@ -92,6 +92,7 @@ uint32_t* partition(uint32_t* pivot, uint32_t *start, uint32_t *end)
 
 void merge_sort_implementation(uint32_t *begin, uint32_t *end, uint32_t *buffer)
 {
+    if (end - begin <= 1) return;
     uint32_t* middle = begin + (end - begin) / 2;
     merge_sort_implementation(begin,  middle, buffer);
     merge_sort_implementation(middle, end,    buffer);
