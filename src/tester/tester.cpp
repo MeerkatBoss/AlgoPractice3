@@ -62,6 +62,7 @@ static void fill_data(test_data* tdata);
     test_data tdata = {};                                           \
     tdata.data = (uint32_t*) calloc(end_size, sizeof(*tdata.data)); \
     CAT(SORT_A seq, _END);                                          \
+    free(tdata.data);                                               \
 } while (0);
 
 
@@ -90,5 +91,5 @@ void run_all_tests()
 static void fill_data(test_data *tdata)
 {
     for (size_t i = 0; i < tdata->data_size; i++)
-        tdata->data[i] = (unsigned) rand() % 16;
+        tdata->data[i] = (unsigned) rand();
 }
