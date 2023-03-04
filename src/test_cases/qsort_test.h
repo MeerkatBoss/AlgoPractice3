@@ -1,0 +1,6 @@
+INITIAL_SIZE(8);
+END_SIZE(8);
+STEP_SIZE(1);
+REPEAT(1);
+
+SORTS((QuickMedian3))

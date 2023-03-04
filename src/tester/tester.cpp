@@ -20,7 +20,7 @@ static void fill_data(test_data* tdata);
 {                                                                           \
     for (size_t repeat = 0; repeat < repetitions; repeat++)                 \
     {                                                                       \
-        int64_t time_delta = 0;                                             \
+        uint64_t time_delta = 0;                                            \
         fill_data(&tdata);                                                  \
         PROFILE_FUNCTION(FUNCTION_ADAPTER(function), tdata, time_delta);    \
         mean_time_ms += time_delta;                                         \
@@ -30,7 +30,7 @@ static void fill_data(test_data* tdata);
             break;                                                          \
         }                                                                   \
     }                                                                       \
-    mean_time_ms /= (int64_t)repetitions;                                   \
+    mean_time_ms /= repetitions;                                            \
 } while(0)
 
 #define RUN_TEST(sort_name, tdata, seed) do                                                     \
@@ -39,10 +39,10 @@ static void fill_data(test_data* tdata);
     for (size_t sample_size = initial_size; sample_size <= end_size; sample_size+=step_size)    \
     {                                                                                           \
         tdata.data_size = sample_size;                                                          \
-        int64_t mean_time_ms = 0;                                                               \
+        uint64_t mean_time_ms = 0;                                                              \
         REPEAT_TEST(sort_name##Sort, repetitions, tdata);                                       \
-        fprintf(output_file, "%s,%zu,%ld\n",                                                \
-                            #sort_name, sample_size, mean_time_ms);                \
+        fprintf(output_file, "%s,%zu,%lu\n",                                                    \
+                            #sort_name, sample_size, mean_time_ms);                             \
     }\
 } while(0)
 
@@ -90,5 +90,5 @@ void run_all_tests()
 static void fill_data(test_data *tdata)
 {
     for (size_t i = 0; i < tdata->data_size; i++)
-        tdata->data[i] = (unsigned) rand();
+        tdata->data[i] = (unsigned) rand() % 16;
 }

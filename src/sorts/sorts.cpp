@@ -1,4 +1,6 @@
 #include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "sorts.h"
 
@@ -41,4 +43,71 @@ void SelectionSort(uint32_t *begin, uint32_t *end)
             if (*j < *min) min = j;
         swap(i, min);
     }
+}
+
+static uint32_t* partition(uint32_t* pivot, uint32_t* begin, uint32_t* end);
+
+void QuickSort(uint32_t *begin, uint32_t *end, pivot_selector_t *get_pivot)
+{
+    if (end - begin <= 1) return;
+    uint32_t* pivot = get_pivot(begin, end);
+    uint32_t* middle = partition(pivot, begin, end);
+
+    if (begin < middle) QuickSort(begin,  middle, get_pivot);
+    if (middle < end)   QuickSort(middle, end,    get_pivot);
+}
+
+static void merge_sort_implementation(uint32_t* begin, uint32_t* end, uint32_t* buffer);
+
+void MergeSort(uint32_t *begin, uint32_t *end)
+{
+    uint32_t *buffer = (uint32_t*) calloc((size_t)(end - begin), sizeof(*begin));
+    merge_sort_implementation(begin, end, buffer);
+    free(buffer);
+}
+
+uint32_t* partition(uint32_t* pivot, uint32_t *start, uint32_t *end)
+{
+    uint32_t *left = start - 1;
+    uint32_t *right = end;
+
+    uint32_t p_value = *pivot;
+
+    while (1)                               // I do not know why this works
+    {
+        do {
+            left++;
+        } while (*left < p_value);
+        do {
+            right--;
+        } while (*right > p_value);
+
+        if (left >= right) return right + 1 < end ? right + 1 : end - 1;
+
+        swap(left, right);
+    }
+
+    return NULL;                            // Unreachable
+}
+
+void merge_sort_implementation(uint32_t *begin, uint32_t *end, uint32_t *buffer)
+{
+    uint32_t* middle = begin + (end - begin) / 2;
+    merge_sort_implementation(begin,  middle, buffer);
+    merge_sort_implementation(middle, end,    buffer);
+
+    uint32_t* i      = begin;
+    uint32_t* j      = middle;
+    uint32_t* result = buffer;
+
+    while (i < middle && j < end)
+    {
+        if (*i <= *j) *(result++) = *(i++);
+        else          *(result++) = *(j++);
+    }
+
+    while (i < middle) *(result++) = *(i++);
+    while (j < end)    *(result++) = *(j++);
+
+    memcpy(begin, buffer, (size_t) (end - begin) * sizeof(*begin));
 }
